@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מוסך מוטורס</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Anton&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            color: white;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="none"%3E%3Ctext x="10" y="30" font-family="Arial" font-size="24" fill="%23FF6A00"%3E🚗%3C/text%3E%3Ctext x="50" y="60" font-family="Arial" font-size="24" fill="%23FF4500"%3E🔧%3C/text%3E%3Ctext x="70" y="90" font-family="Arial" font-size="24" fill="%23FFD700"%3E🛠%3C/text%3E%3C/svg%3E');
+            background-size: 100px 100px;
+            background-position: top left;
+            background-repeat: repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #000000;
+            padding: 25px;
+            max-width: 420px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            font-family: 'Anton', sans-serif;
+            font-size: 32px;
+            color: #FFDF00;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+        h2 {
+            color: #FF4500;
+            font-size: 20px;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+        label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #FFD700;
+            display: block;
+            text-align: left;
+        }
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input {
+            width: 85%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #FF4500;
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+        }
+        input:focus {
+            outline: none;
+            border-color: #FFDF00;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            width: 85%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 12px;
+            color: #FFD700;
+        }
+        .copy-btn {
+            background-color: #FFC107;
+            color: black;
+            font-size: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 14px;
+            width: 85%;
+            transition: background-color 0.3s;
+        }
+        .copy-btn:hover {
+            background-color: #e0a800;
+        }
+        .note {
+            font-size: 14px;
+            color: #ddd;
+            margin-top: 15px;
+        }
+        .img-container {
+            margin-top: 15px;
+            background-image: url('https://via.placeholder.com/500x200?text=%D7%9E%D7%95%D7%A1%D7%97+%D7%9E%D7%95%D7%98%D7%95%D7%A8%D7%A1');
+            background-size: cover;
+            background-position: center;
+            height: 180px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+        .emoji {
+            font-size: 24px;
+            margin-right: 10px;
+            animation: moveEmoji 1s ease-in-out infinite alternate;
+        }
+
+        /* הודעה למעלה */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* אנימציה של הרכב */
+        @keyframes moveEmoji {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+            100% { transform: translateX(-10px); }
+        }
+
+        .notification.show {
+            display: flex;
+            animation: showNotification 2s forwards;
+        }
+
+        @keyframes showNotification {
+            0% { opacity: 0; top: 0; }
+            50% { opacity: 1; top: 20px; }
+            100% { opacity: 1; top: 20px; }
+        }
+
+        .notification.reset {
+            animation: resetNotification 0.5s ease-in-out forwards;
+        }
+
+        @keyframes resetNotification {
+            0% { opacity: 1; top: 20px; }
+            100% { opacity: 0; top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🚗 מוסך מוטורס 🔧</h1>
+        <h2>💡 שיפורים ומוסך רכב בהתאמה אישית</h2>
+
+        <div class="img-container">שיפורים ומוסך רכב</div>
+
+        <div class="input-container">
+            <label>סוג שיפור:</label>
+            <input type="text" id="upgradeType" placeholder="לדוגמה: השחרות לרכב">
+
+            <label>מחיר לפני עמלה:</label>
+            <input type="number" id="basePrice" placeholder="לדוגמה: 3920">
+
+            <label>אחוז עמלה:</label>
+            <input type="number" id="commissionRate" placeholder="לדוגמה: 15">
+
+            <label>הנחות:</label>
+            <input type="text" id="discounts" placeholder="לדוגמה: X">
+
+            <label>הערות:</label>
+            <input type="text" id="notes" placeholder="לדוגמה: X">
+        </div>
+
+        <p class="result" id="finalPrice"></p>
+        <p class="result" id="netProfit"></p>
+
+        <button class="copy-btn" onclick="copyToClipboard()">📋 העתק ללוח</button>
+
+        <p class="note">🔧 מוסך מוטורס - כל שיפורי הרכב תחת קורת גג אחת! 🚗</p>
+    </div>
+
+    <!-- הודעה שהמידע הועתק -->
+    <div id="notification" class="notification">
+        <span class="emoji">🚗</span> הפורמט הועתק ללוח!
+    </div>
+
+    <script>
+        let notificationTimer;
+
+        function formatNumber(num) {
+            return Math.floor(num).toString();
+        }
+
+        function calculatePrice() {
+            let basePrice = parseFloat(document.getElementById("basePrice").value) || 0;
+            let commissionRate = parseFloat(document.getElementById("commissionRate").value) || 0;
+
+            let finalPrice = basePrice + (basePrice * commissionRate / 100);
+            let netProfit = finalPrice - basePrice;
+
+            document.getElementById("finalPrice").innerText = "מחיר אחרי עמלה: " + formatNumber(finalPrice);
+            document.getElementById("netProfit").innerText = "רווח נקי: " + formatNumber(netProfit);
+        }
+
+        document.getElementById("basePrice").addEventListener("input", calculatePrice);
+        document.getElementById("commissionRate").addEventListener("input", calculatePrice);
+
+        function copyToClipboard() {
+            const text = 
+                "מחיר לפני עמלה: " + (document.getElementById("basePrice").value || "X") + "\n" + 
+                "הנחות: " + (document.getElementById("discounts").value || "X") + "\n" + 
+                "מחיר אחרי עמלה: " + (document.getElementById("finalPrice").innerText.replace("מחיר אחרי עמלה: ", "") || "X") + "\n" + 
+                "רווח נקי: " + (document.getElementById("netProfit").innerText.replace("רווח נקי: ", "") || "X") + "\n" + 
+                "סוג השיפור: " + (document.getElementById("upgradeType").value || "X") + "\n" + 
+                "הערות: " + (document.getElementById("notes").value || "X");
+
+            navigator.clipboard.writeText(text).then(function() {
+                const notification = document.getElementById("notification");
+
+                if (notification.classList.contains("show")) {
+                    clearTimeout(notificationTimer); 
+                    notification.classList.add("reset");  
+                    setTimeout(function() {
+                        notification.classList.remove("reset");
+                    }, 500);  
+                }
+
+                notification.classList.add("show");
+
+                notificationTimer = setTimeout(function() {
+                    notification.classList.remove("show");
+                }, 5000);  
+            });
+        }
+    </script>
+</body>
+</html>
